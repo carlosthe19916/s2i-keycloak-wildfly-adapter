@@ -1,0 +1,58 @@
+#!/bin/bash
+
+ADMIN=admin
+PASSWORD=passw0rd_
+
+# Usage: execute.sh [WildFly mode] [configuration file]
+#
+# The default mode is 'standalone' and default configuration is based on the
+# mode. It can be 'standalone.xml' or 'domain.xml'.
+JBOSS_HOME=/wildfly
+JBOSS_CLI=$JBOSS_HOME/bin/jboss-cli.sh
+JBOSS_MODE=${1:-"standalone"}
+JBOSS_CONFIG=${2:-"$JBOSS_MODE.xml"}
+
+# add admin user
+$JBOSS_HOME/bin/add-user.sh $ADMIN $PASSWORD --silent
+
+function wait_for_server() {
+  until `$JBOSS_CLI -u=$ADMIN -p=$PASSWORD -c ":read-attribute(name=server-state)" 2> /dev/null | grep -q running`; do
+    sleep 1
+  done
+}
+
+echo "=> Starting WildFly server"
+$JBOSS_HOME/bin/$JBOSS_MODE.sh -b 0.0.0.0 -c $JBOSS_CONFIG &
+
+echo "=> Waiting for the server to boot"
+wait_for_server
+
+echo "=> Executing the commands"
+echo "=> KEYCLOAK_SECURE_DEPLOYMENT_ATTRS (secure deployment): " $KEYCLOAK_SECURE_DEPLOYMENT_ATTRS
+
+$JBOSS_CLI -c -u=$ADMIN -p=$PASSWORD << EOF
+batch
+
+#set CONNECTION_URL=jdbc:mysql://$MYSQL_SERVICE_SERVICE_HOST:$MYSQL_SERVICE_SERVICE_PORT/sample
+set CONNECTION_URL=jdbc:mysql://$MYSQL_URI/sample
+echo "Connection URL: " $CONNECTION_URL
+
+# Add Keycloak Secure Deployment
+/subsystem=keycloak/secure-deployment=$WAR_NAME.war:add($KEYCLOAK_SECURE_DEPLOYMENT_ATTRS)
+
+# Execute the batch
+run-batch
+EOF
+
+echo "=> Shutting down WildFly"
+if [ "$JBOSS_MODE" = "standalone" ]; then
+  $JBOSS_CLI -c -u=$ADMIN -p=$PASSWORD ":shutdown"
+else
+  $JBOSS_CLI -c -u=$ADMIN -p=$PASSWORD "/host=*:shutdown"
+fi
+
+# remove admin user
+sed -i '/^#/! s/^/#/' /wildfly/{standalone,domain}/configuration/mgmt-{groups,users}.properties
+
+echo "=> Restarting WildFly"
+exec $JBOSS_HOME/bin/$JBOSS_MODE.sh -b 0.0.0.0 -bmanagement 0.0.0.0

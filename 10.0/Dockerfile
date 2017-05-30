@@ -6,6 +6,9 @@ ENV KEYCLOAK_VERSION 3.1.0.Final
 ADD ./contrib/wfbin/standalone.conf /wildfly/bin/standalone.conf
 ADD ./contrib/wfcfg/standalone.xml /wildfly/standalone/configuration/standalone.xml
 
+# Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
+COPY ./s2i/bin/ $STI_SCRIPTS_PATH
+
 # install keycloak adapter
 USER 1001
 WORKDIR /wildfly
