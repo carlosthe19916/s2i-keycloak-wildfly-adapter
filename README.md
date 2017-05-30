@@ -1,0 +1,1 @@
+# s2i-keycloak-wildfly-adapter
