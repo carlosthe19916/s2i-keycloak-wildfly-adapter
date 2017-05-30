@@ -1,4 +1,4 @@
-FROM openshift/wildfly-101-centos7
+FROM openshift/wildfly-90-centos7
 
 ENV KEYCLOAK_VERSION 3.1.0.Final
 
