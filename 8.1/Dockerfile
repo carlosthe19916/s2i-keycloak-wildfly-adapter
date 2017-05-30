@@ -9,7 +9,7 @@ ADD ./contrib/wfcfg/standalone.xml /wildfly/standalone/configuration/standalone.
 # install keycloak adapter
 USER 1001
 WORKDIR /wildfly
-RUN curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/adapters/keycloak-oidc/keycloak-wildfly-adapter-dist-$KEYCLOAK_VERSION.tar.gz | tar zx
+RUN curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/adapters/keycloak-oidc/keycloak-wf8-adapter-dist-$KEYCLOAK_VERSION.tar.gz | tar zx
 
 # Standalone.xml modifications.
 RUN sed -i -e 's/<extensions>/&\n        <extension module="org.keycloak.keycloak-adapter-subsystem"\/>/' /wildfly/standalone/configuration/standalone.xml && \
