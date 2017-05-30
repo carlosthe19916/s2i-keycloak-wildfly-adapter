@@ -225,8 +225,14 @@ PASSWORD=passw0rd_
 
 
 # Keycloak
+echo "Cheching variables Keycloak"
+echo "=> WAR_NAME (secure deployment): " $WAR_NAME
+echo "=> KEYCLOAK_SECURE_DEPLOYMENT_ATTRS (secure deployment): " $KEYCLOAK_SECURE_DEPLOYMENT_ATTRS
+
 if [ -n "$WAR_NAME" ] && [ -n "$KEYCLOAK_SECURE_DEPLOYMENT_ATTRS" ]
 then
+  echo "Starting to configure keycloak subsystem"
+
   $JBOSS_HOME/bin/add-user.sh $ADMIN $PASSWORD --silent
 
   echo "=> Starting WildFly server"
