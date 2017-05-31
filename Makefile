@@ -1,5 +1,5 @@
 # Variables are documented in hack/build.sh.
-BASE_IMAGE_NAME = wildfly
+BASE_IMAGE_NAME = wildfly-keycloak-adapter
 VERSIONS = 8.1 9.0 10.0 10.1
 OPENSHIFT_NAMESPACES = 8.1 9.0 10.0 10.1
 
