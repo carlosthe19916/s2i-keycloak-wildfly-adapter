@@ -40,9 +40,9 @@ EOF
     # remove admin user
     sed -i '/^#/! s/^/#/' /wildfly/{standalone,domain}/configuration/mgmt-{groups,users}.properties
 
-    # remove tmp files
-    rm -rf standalone/tmp/vfs
-    rm -rf standalone/log/*
+    # changing owner
+    echo "Changing from" $USER to "1001"
+    chown -R 1001 /wildfly
   fi
 }
 
