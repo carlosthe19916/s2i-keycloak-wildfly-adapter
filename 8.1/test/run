@@ -8,6 +8,9 @@
 #
 IMAGE_NAME=${IMAGE_NAME-carlosthe19916/wildfly-keycloak-adapter-81-centos-candidate}
 
+export WAR_NAME=MyWarName
+export KEYCLOAK_SECURE_DEPLOYMENT_ATTRS=http://localhost:8080/auth,realm=myrealm,resource=sample-application
+
 test_dir="$(readlink -zf $(dirname "${BASH_SOURCE[0]}"))"
 image_dir=$(readlink -zf ${test_dir}/..)
 cid_file=$(mktemp -u --suffix=.cid)
