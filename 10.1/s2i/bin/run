@@ -1,4 +1,7 @@
 #!/bin/bash
 echo "ececuting..." $USER
 whoami
+echo "permission"
+ls -l /wildfly
+
 exec /wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0
