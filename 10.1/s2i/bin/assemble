@@ -39,6 +39,10 @@ EOF
 
     # remove admin user
     sed -i '/^#/! s/^/#/' /wildfly/{standalone,domain}/configuration/mgmt-{groups,users}.properties
+
+    # remove tmp files
+    rm -rf standalone/tmp/vfs
+    rm -rf standalone/log/*
   fi
 }
 
