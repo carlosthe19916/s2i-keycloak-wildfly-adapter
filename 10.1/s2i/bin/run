@@ -1,7 +1,5 @@
 #!/bin/bash
-echo "ececuting..." $USER
-whoami
-echo "permission"
-ls -l /wildfly
+ls -l /wildfly/standalone/data
+ls -l /wildfly/standalone/data/content
 
 exec /wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0
