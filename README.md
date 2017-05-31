@@ -26,21 +26,21 @@ Installation
 This image is available on DockerHub.  To download it, run:
 
 ```
-$ docker pull openshift/wildfly-101-centos7
+$ docker pull carlosthe19916/wildfly-keycloak-adapter-101-centos7
 
 ```
 
 or
 
 ```
-$ docker pull openshift/wildfly-100-centos7
+$ docker pull carlosthe19916/wildfly-keycloak-adapter-100-centos7
 ```
 
 To build a WildFly image from scratch, run:
 
 ```
-$ git clone https://github.com/openshift-s2i/s2i-wildfly.git
-$ cd s2i-wildfly
+$ git clone https://github.com/carlosthe19916/s2i-wildfly-keycloak-adapter.git
+$ cd s2i-wildfly-keycloak-adapter
 $ make build VERSION=10.1
 ```
 
