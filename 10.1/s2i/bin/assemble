@@ -41,8 +41,9 @@ EOF
     sed -i '/^#/! s/^/#/' /wildfly/{standalone,domain}/configuration/mgmt-{groups,users}.properties
 
     # changing owner
-    echo "Changing from" $USER to "1001"
-    chown -R 1001 /wildfly
+    echo "Changing from" $USER to "nobody"
+    whoami
+    chown -R nobody /wildfly
   fi
 }
 
