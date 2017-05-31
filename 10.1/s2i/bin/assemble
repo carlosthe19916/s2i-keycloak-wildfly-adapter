@@ -11,6 +11,13 @@ function wait_for_server() {
 function keycloak_config() {
   if [ -n "$WAR_NAME" ] && [ -n "$KEYCLOAK_SECURE_DEPLOYMENT_ATTRS" ]
   then
+    echo "#########################"
+    echo "ececuting..." $USER
+    whoami
+    echo "permission"
+    ls -l /wildfly
+    echo "#########################"
+
     # add admin user
     /wildfly/bin/add-user.sh $ADMIN $PASSWORD --silent
 
@@ -40,10 +47,18 @@ EOF
     # remove admin user
     sed -i '/^#/! s/^/#/' /wildfly/{standalone,domain}/configuration/mgmt-{groups,users}.properties
 
+
+    echo "---------------------------"
+    echo "ececuting..." $USER
+    whoami
+    echo "permission"
+    ls -l /wildfly
+    echo "---------------------------"
+
     # changing owner
     echo "Changing from" $USER to "nobody"
     whoami
-    chown -R nobody /wildfly
+    chown -R nobody:nobody /wildfly
   fi
 }
 
