@@ -1,0 +1,42 @@
+{
+  "kind": "BuildConfig",
+  "apiVersion": "v1beta1",
+  "metadata":{
+    "name": "wildfly-keycloak-adapter-81-centos-build"
+  },
+  "triggers": [
+    {
+      "type": "github",
+      "github": {
+        "secret": "secret101"
+      }
+    },
+    {
+      "type": "generic",
+      "generic": {
+        "secret": "secret101"
+      }
+    }
+  ],
+  "parameters": {
+    "source" : {
+      "type" : "Git",
+      "git" : {
+        "uri": "git://github.com/carlosthe19916/wildfly-keycloak-adapter-81-centos.git"
+      }
+    },
+    "strategy": {
+      "type": "Custom",
+      "customStrategy": {
+        "image": "carlosthe19916/sti-image-builder",
+        "exposeDockerSocket": true,
+        "env": [
+          { "name": "IMAGE_NAME", "value": "carlosthe19916/wildfly-keycloak-adapter-81-centos-candidate"}
+        ]
+      }
+    }
+  },
+  "labels": {
+    "name": "wildfly-keycloak-adapter-81-centos-build"
+  }
+}
