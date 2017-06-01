@@ -18,6 +18,6 @@ RUN sed -i -e 's/<extensions>/&\n        <extension module="org.keycloak.keycloa
 
 # offline batch execution
 ADD keycloak.sh /tmp/keycloak.sh
-RUN /tmp/keycloak.sh && rm /tmp/keycloak.sh
+RUN /tmp/keycloak.sh
 #RUN if [ -n "$WAR_NAME" ] && [ -n "$SECURE_DEPLOYMENT_ATTRS" ]; then /wildfly/bin/jboss-cli.sh --commands=embed-server,/subsystem=keycloak/secure-deployment=$WAR_NAME.war:add\($SECURE_DEPLOYMENT_ATTRS\),stop-embedded-server; fi
 RUN rm -rf /wildfly/standalone/configuration/standalone_xml_history/current/*
