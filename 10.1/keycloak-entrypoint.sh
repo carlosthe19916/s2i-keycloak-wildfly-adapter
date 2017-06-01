@@ -85,3 +85,5 @@ then
 fi
 
 rm -rf /wildfly/standalone/configuration/standalone_xml_history/current/*
+
+exec "$@"
