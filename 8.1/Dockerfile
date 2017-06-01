@@ -16,6 +16,5 @@ RUN sed -i -e 's/<extensions>/&\n        <extension module="org.keycloak.keycloa
     sed -i -e 's/<profile>/&\n        <subsystem xmlns="urn:jboss:domain:keycloak:1.1"\/>/' /wildfly/standalone/configuration/standalone.xml && \
     sed -i -e 's/<security-domains>/&\n                <security-domain name="keycloak">\n                    <authentication>\n                        <login-module code="org.keycloak.adapters.jboss.KeycloakLoginModule" flag="required"\/>\n                    <\/authentication>\n                <\/security-domain>/' /wildfly/standalone/configuration/standalone.xml
 
-# offline batch execution
-RUN if [ -n "$WAR_NAME" ] && [ -n "$SECURE_DEPLOYMENT_ATTRS" ]; then /wildfly/bin/jboss-cli.sh --commands=embed-server,/subsystem=keycloak/secure-deployment=$WAR_NAME.war:add\($SECURE_DEPLOYMENT_ATTRS\),stop-embedded-server; fi
-RUN rm -rf /wildfly/standalone/configuration/standalone_xml_history/current/*
+ADD keycloak-entrypoint.sh /wildfly
+ENTRYPOINT [ "/wildfly/keycloak-entrypoint.sh" ]
