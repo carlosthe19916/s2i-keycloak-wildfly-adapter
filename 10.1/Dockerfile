@@ -6,9 +6,6 @@ ENV KEYCLOAK_VERSION 3.1.0.Final
 ADD ./contrib/wfbin/standalone.conf /wildfly/bin/standalone.conf
 ADD ./contrib/wfcfg/standalone.xml /wildfly/standalone/configuration/standalone.xml
 
-# Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
-COPY ./s2i/bin/ $STI_SCRIPTS_PATH
-
 # install keycloak adapter
 USER 1001
 WORKDIR /wildfly
@@ -24,10 +21,5 @@ ADD kcreg.sh /wildfly/bin
 RUN mkdir -p /wildfly/bin/client && \
     curl -L -o /wildfly/bin/client/keycloak-client-registration-cli.jar http://central.maven.org/maven2/org/keycloak/keycloak-client-registration-cli/3.0.0.Final/keycloak-client-registration-cli-3.0.0.Final.jar
 
-USER root
-RUN echo "unoooooooooooooooooooooo"
-RUN chown -R 1001:0 /wildfly} && \
-    chmod -R ug+rw /wildfly && \
-    chmod -R g+rw /opt/s2i/destination
-
-USER 1001
+ADD keycloak-entrypoint.sh /wildfly
+ENTRYPOINT [ "/wildfly/keycloak-entrypoint.sh" ]
