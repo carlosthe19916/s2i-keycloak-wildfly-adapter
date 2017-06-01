@@ -109,6 +109,9 @@ function keycloakconfig() {
   fi
 
   echo "dosssssssssssssssssssssssss"
+  chown -R 1001:0 /wildfly && chown -R 1001:0 $HOME
+  chmod -R ug+rw /wildfly
+  chmod -R g+rw /opt/s2i/destination
 }
 
 # restore maven dependencies downloaded in a previous build,
