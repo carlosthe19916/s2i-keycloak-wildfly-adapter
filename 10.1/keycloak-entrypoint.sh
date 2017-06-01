@@ -4,6 +4,11 @@ WAR_NAME=ROOT
 
 if [ -n "$KEYCLOAK_REALM" ] && [ -n "$KEYCLOAK_RESOURCE" ] && [ -n "$KEYCLOAK_AUTH_SERVER_URL" ] && [ -n "$KEYCLOAK_SECURE_DEPLOYMENT" ]
 then
+
+  # Remove last slash from keycloak
+  export KEYCLOAK_AUTH_SERVER_URL=${KEYCLOAK_AUTH_SERVER_URL%/}
+
+  # Check war name
   if [[ $KEYCLOAK_SECURE_DEPLOYMENT == *.war ]]; 
   then
     WAR_NAME=$KEYCLOAK_SECURE_DEPLOYMENT
@@ -99,7 +104,6 @@ then
     /wildfly/bin/kcreg.sh update $KEYCLOAK_RESOURCE -s bearerOnly=$KEYCLOAK_BEARER_ONLY
   fi
 
-  rm ~/.keycloak/kcreg.config
 fi
 
 exec "$@"
