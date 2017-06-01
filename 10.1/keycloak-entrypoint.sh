@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/bin/bash
+
 WAR_NAME=ROOT
 
 if [ -n "$KEYCLOAK_REALM" ] && [ -n "$KEYCLOAK_RESOURCE" ] && [ -n "$KEYCLOAK_AUTH_SERVER_URL" ] && [ -n "$KEYCLOAK_SECURE_DEPLOYMENT" ]
@@ -82,3 +83,5 @@ then
     /wildfly/bin/jboss-cli.sh --commands=embed-server,/subsystem=keycloak/secure-deploymeny=$WAR_NAME:add\(public-key-cache-ttl=$KEYCLOAK_PUBLIC_KEY_CACHE_TTL\)
   fi
 fi
+
+rm -rf /wildfly/standalone/configuration/standalone_xml_history/current/*
