@@ -24,6 +24,7 @@ ADD kcreg.sh /wildfly/bin
 RUN mkdir -p /wildfly/bin/client && \
     curl -L -o /wildfly/bin/client/keycloak-client-registration-cli.jar http://central.maven.org/maven2/org/keycloak/keycloak-client-registration-cli/3.0.0.Final/keycloak-client-registration-cli-3.0.0.Final.jar
 
+USER root
 RUN echo "unoooooooooooooooooooooo"
 RUN chown -R 1001:0 /wildfly && chown -R 1001:0 $HOME && \
     chmod -R ug+rw /wildfly && \
