@@ -107,6 +107,9 @@ function keycloakconfig() {
       /wildfly/bin/kcreg.sh update $KEYCLOAK_RESOURCE -s bearerOnly=$KEYCLOAK_BEARER_ONLY
     fi
   fi
+
+  chown -R 1001:0 /wildfly && \
+  chmod -R ug+rw /wildfly
 }
 
 # restore maven dependencies downloaded in a previous build,
