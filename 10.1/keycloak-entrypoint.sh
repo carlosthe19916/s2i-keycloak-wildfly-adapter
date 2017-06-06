@@ -1,5 +1,14 @@
 #!/bin/bash
 
+if [ -n "$HTTPS_NAME" ] && [ -n "$HTTPS_PASSWORD" ] && [ -n "$HTTPS_KEYSTORE" ]
+then
+    # Add realm subsystem
+    echo "subsystem=keycloak/realm"
+    /wildfly/bin/jboss-cli.sh --commands=embed-server,/core-service=management/security-realm=UndertowRealm:add\(\)
+    /wildfly/bin/jboss-cli.sh --commands=embed-server,/core-service=management/security-realm=UndertowRealm/server-identity=ssl:add\(keystore-path=$HTTPS_KEYSTORE,keystore-relative-to=jboss.server.config.dir,keystore-password=$HTTPS_PASSWORD\)
+    /wildfly/bin/jboss-cli.sh --commands=embed-server,/subsystem=undertow/server=default-server/https-listener=$HTTPS_NAME:add\(socket-binding=https,security-realm=UndertowRealm\)
+fi
+
 WAR_NAME=ROOT
 
 if [ -n "$KEYCLOAK_REALM" ] && [ -n "$KEYCLOAK_RESOURCE" ] && [ -n "$KEYCLOAK_AUTH_SERVER_URL" ] && [ -n "$KEYCLOAK_SECURE_DEPLOYMENT" ]
