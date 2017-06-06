@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ -n "$HTTPS_NAME" ] && [ -n "$HTTPS_PASSWORD" ] && [ -n "$HTTPS_KEYSTORE" ]
+if [ -n "$HTTPS_NAME" ] && [ -n "$HTTPS_PASSWORD" ] && [ -n "$HTTPS_KEYSTORE" ] && [ -n "$HTTPS_KEYSTORE_DIR" ]
 then
     # Add realm subsystem
-    echo "subsystem=keycloak/realm"
+    echo "configuring https"
     /wildfly/bin/jboss-cli.sh --commands=embed-server,/core-service=management/security-realm=UndertowRealm:add\(\)
-    /wildfly/bin/jboss-cli.sh --commands=embed-server,/core-service=management/security-realm=UndertowRealm/server-identity=ssl:add\(keystore-path=$HTTPS_KEYSTORE,keystore-relative-to=jboss.server.config.dir,keystore-password=$HTTPS_PASSWORD\)
+    /wildfly/bin/jboss-cli.sh --commands=embed-server,/core-service=management/security-realm=UndertowRealm/server-identity=ssl:add\(keystore-path=$HTTPS_KEYSTORE,keystore-relative-to=$HTTPS_KEYSTORE_DIR,keystore-password=$HTTPS_PASSWORD\)
     /wildfly/bin/jboss-cli.sh --commands=embed-server,/subsystem=undertow/server=default-server/https-listener=$HTTPS_NAME:add\(socket-binding=https,security-realm=UndertowRealm\)
 fi
 
