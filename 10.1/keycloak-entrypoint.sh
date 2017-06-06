@@ -5,8 +5,8 @@ then
     # Add realm subsystem
     echo "configuring https"
     /wildfly/bin/jboss-cli.sh --commands=embed-server,/core-service=management/security-realm=UndertowRealm:add\(\)
-    /wildfly/bin/jboss-cli.sh --commands=embed-server,/core-service=management/security-realm=UndertowRealm/server-identity=ssl:add\(keystore-path=$HTTPS_KEYSTORE,keystore-relative-to=$HTTPS_KEYSTORE_DIR,keystore-password=$HTTPS_PASSWORD\)
-    /wildfly/bin/jboss-cli.sh --commands=embed-server,/subsystem=undertow/server=default-server/https-listener=$HTTPS_NAME:add\(socket-binding=https,security-realm=UndertowRealm\)
+    /wildfly/bin/jboss-cli.sh --commands=embed-server,/core-service=management/security-realm=UndertowRealm/server-identity=ssl:add\(keystore-path=$HTTPS_KEYSTORE,keystore-relative-to=$HTTPS_KEYSTORE_DIR,keystore-password=$HTTPS_PASSWORD,alias=$HTTPS_NAME,key-password=$HTTPS_PASSWORD\)
+    /wildfly/bin/jboss-cli.sh --commands=embed-server,/subsystem=undertow/server=default-server/https-listener=https:add\(socket-binding=https,security-realm=UndertowRealm,enable-http2=true\)
 fi
 
 WAR_NAME=ROOT
