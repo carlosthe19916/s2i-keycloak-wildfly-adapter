@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Configuring https
+echo "=========================================================================\n"
+
 if [ -n "$HTTPS_NAME" ] && [ -n "$HTTPS_PASSWORD" ] && [ -n "$HTTPS_KEYSTORE" ] && [ -n "$HTTPS_KEYSTORE_DIR" ]
 then
   echo "Configuring https"
@@ -12,5 +14,7 @@ else
   /wildfly/bin/jboss-cli.sh --commands=embed-server,/core-service=management/security-realm=ApplicationRealm/server-identity=ssl:add\(keystore-path=application.keystore,keystore-relative-to=jboss.server.config.dir,keystore-password=password,alias=server,key-password=password,generate-self-signed-certificate-host=localhost\)
   /wildfly/bin/jboss-cli.sh --commands=embed-server,/subsystem=undertow/server=default-server/https-listener=https:add\(socket-binding=https,security-realm=ApplicationRealm,enable-http2=true\)
 fi
+
+echo "\n========================================================================="
 
 exec /wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0
